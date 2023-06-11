@@ -8,6 +8,12 @@ const app = new PIXI.Application({
 });
 document.body.appendChild(app.view);
 
+//Set background as galaxy
+const galaxy = PIXI.Sprite.from("assets/galaxy.jpg");
+galaxy.width = gameWidth;
+galaxy.height = gameHeight;
+app.stage.addChild(galaxy);
+
 //Adding rocket image
 const rocket = PIXI.Sprite.from("assets/rocket.png");
 rocket.x = app.screen.width / 2;
