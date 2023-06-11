@@ -1,3 +1,5 @@
+const modAbs = (value, modulo) => ((value % modulo) + modulo) % modulo;
+
 //Initiated pixi app with full window dimensions and a background colour
 const gameWidth = window.innerWidth * 0.75;
 const gameHeight = window.innerHeight * 0.6;
@@ -9,10 +11,31 @@ const app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 //Set background as galaxy
-const galaxy = PIXI.Sprite.from("assets/galaxy.jpg");
+const galaxy = PIXI.Sprite.from("assets/galaxy.jpeg");
+const reverseGalaxy = PIXI.Sprite.from("assets/galaxy.jpeg");
 galaxy.width = gameWidth;
 galaxy.height = gameHeight;
+reverseGalaxy.width = gameWidth;
+reverseGalaxy.height = gameHeight;
 app.stage.addChild(galaxy);
+app.stage.addChild(reverseGalaxy);
+
+//Make it infinitly moving background
+let y = 0;
+
+app.ticker.add((delta) => {
+  y += delta * 2;
+  if (y > gameHeight + galaxy.height / 2) {
+    y = -galaxy.height / 2;
+  }
+  y = modAbs(y, gameHeight);
+  reverseGalaxy.visible = false;
+  if (y + galaxy.height > gameHeight) {
+    reverseGalaxy.visible = true;
+    reverseGalaxy.position.y = y - gameHeight;
+  }
+  galaxy.position.y = y;
+});
 
 //Adding rocket image
 const rocket = PIXI.Sprite.from("assets/rocket.png");
