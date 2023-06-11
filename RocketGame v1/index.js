@@ -1,6 +1,7 @@
 import { gameHeight, gameWidth, modAbs, MOVE_DIST } from "./constants.js";
 import { galaxy, reverseGalaxy } from "./galaxy.js";
 import { rocket } from "./rocket.js";
+import { moon } from "./moon.js";
 
 //Initiated pixi app with full window dimensions and a background colour
 const app = new PIXI.Application({
@@ -35,6 +36,11 @@ app.ticker.add((delta) => {
 rocket.x = app.screen.width / 2;
 rocket.y = app.screen.height / 1.5;
 app.stage.addChild(rocket);
+
+//Adding moon image and positioning
+moon.x = app.screen.width / 6;
+moon.y = app.screen.height / 7;
+app.stage.addChild(moon);
 
 //Setting Limits for rocket
 const RIGHT_LIMIT = gameWidth - rocket.width - MOVE_DIST;
