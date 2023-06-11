@@ -1,8 +1,8 @@
-const modAbs = (value, modulo) => ((value % modulo) + modulo) % modulo;
+import { gameHeight, gameWidth, modAbs, MOVE_DIST } from "./constants.js";
+import { galaxy, reverseGalaxy } from "./galaxy.js";
+import { rocket } from "./rocket.js";
 
 //Initiated pixi app with full window dimensions and a background colour
-const gameWidth = window.innerWidth * 0.75;
-const gameHeight = window.innerHeight * 0.6;
 const app = new PIXI.Application({
   background: "black",
   width: gameWidth,
@@ -11,12 +11,6 @@ const app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 //Set background as galaxy
-const galaxy = PIXI.Sprite.from("assets/galaxy.jpeg");
-const reverseGalaxy = PIXI.Sprite.from("assets/galaxy.jpeg");
-galaxy.width = gameWidth;
-galaxy.height = gameHeight;
-reverseGalaxy.width = gameWidth;
-reverseGalaxy.height = gameHeight;
 app.stage.addChild(galaxy);
 app.stage.addChild(reverseGalaxy);
 
@@ -37,41 +31,38 @@ app.ticker.add((delta) => {
   galaxy.position.y = y;
 });
 
-//Adding rocket image
-const rocket = PIXI.Sprite.from("assets/rocket.png");
+//Adding rocket image and positioning
 rocket.x = app.screen.width / 2;
 rocket.y = app.screen.height / 1.5;
-rocket.width = 50;
-rocket.height = 50;
 app.stage.addChild(rocket);
 
 //Setting Limits for rocket
-const RIGHT_LIMIT = gameWidth - rocket.width - 10;
-const LEFT_LIMIT = 10;
-const TOP_LIMIT = 10;
-const BOTTOM_LIMIT = gameHeight - rocket.height - 10;
+const RIGHT_LIMIT = gameWidth - rocket.width - MOVE_DIST;
+const LEFT_LIMIT = MOVE_DIST;
+const TOP_LIMIT = MOVE_DIST;
+const BOTTOM_LIMIT = gameHeight - rocket.height - MOVE_DIST;
 
 //Moving rocket by using arrow keys
 window.addEventListener("keydown", (e) => {
   switch (e.code) {
     case "ArrowDown":
       if (rocket.y <= BOTTOM_LIMIT) {
-        rocket.y += 10;
+        rocket.y += MOVE_DIST;
       }
       break;
     case "ArrowUp":
       if (rocket.y >= TOP_LIMIT) {
-        rocket.y -= 10;
+        rocket.y -= MOVE_DIST;
       }
       break;
     case "ArrowRight":
       if (rocket.x <= RIGHT_LIMIT) {
-        rocket.x += 10;
+        rocket.x += MOVE_DIST;
       }
       break;
     case "ArrowLeft":
       if (rocket.x >= LEFT_LIMIT) {
-        rocket.x -= 10;
+        rocket.x -= MOVE_DIST;
       }
       break;
   }
